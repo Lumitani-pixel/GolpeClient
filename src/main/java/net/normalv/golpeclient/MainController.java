@@ -22,7 +22,7 @@ public class MainController {
     protected void onConnectButtonClick() throws URISyntaxException {
         MainApplication main = MainApplication.getInstance();
         if(main.getWsClient() == null) {
-            main.setWsClient(new WSClient(new URI("ws://"+hostField.getText()+":"+portField.getText())));
+            main.setWsClient(new WSClient(new URI("ws://"+getHostName()+":"+getHostPort())));
             main.getWsClient().connect();
             connectButton.setText("Disconnect");
         }
@@ -34,5 +34,13 @@ public class MainController {
             main.getWsClient().close();
             connectButton.setText("Connect");
         }
+    }
+
+    private String getHostName() {
+        return hostField.getText().isEmpty() ? "localhost" : hostField.getText();
+    }
+
+    private String getHostPort() {
+        return portField.getText().isEmpty() ? "1598" : portField.getText();
     }
 }

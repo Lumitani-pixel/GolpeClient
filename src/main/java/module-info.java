@@ -13,6 +13,9 @@ module net.normalv.golpeclient {
     requires org.java_websocket;
     requires com.google.gson;
 
+    opens net.normalv.golpeclient.websocket.packets.impl to com.google.gson;
+    opens net.normalv.golpeclient.websocket.packets to com.google.gson;
+
     opens net.normalv.golpeclient to javafx.fxml;
     exports net.normalv.golpeclient;
 }
