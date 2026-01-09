@@ -11,6 +11,7 @@ module net.normalv.golpeclient {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires org.java_websocket;
+    requires com.google.gson;
 
     opens net.normalv.golpeclient to javafx.fxml;
     exports net.normalv.golpeclient;
