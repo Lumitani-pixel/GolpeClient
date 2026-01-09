@@ -5,21 +5,29 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.normalv.golpeclient.MainController">
   <tabs>
       <Tab text="Main">
          <content>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="200.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="100.0">
                <children>
                   <Label text="Golpe Client">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" text="Connect" />
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <TextField fx:id="hostField" promptText="Host" />
+                        <TextField fx:id="portField" promptText="Port" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="connectButton" mnemonicParsing="false" onAction="#onConnectButtonClick" text="Connect" />
                </children>
             </VBox>
          </content>
