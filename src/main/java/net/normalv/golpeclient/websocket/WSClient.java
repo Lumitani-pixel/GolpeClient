@@ -1,6 +1,7 @@
 package net.normalv.golpeclient.websocket;
 
 import net.normalv.golpeclient.MainController;
+import net.normalv.golpeclient.game.GameClient;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -8,8 +9,11 @@ import java.net.URI;
 
 //TODO: Implement proper logging
 public class WSClient extends WebSocketClient {
-    public WSClient(URI serverUri) {
+    private GameClient gameClient;
+
+    public WSClient(URI serverUri, GameClient gameClient) {
         super(serverUri);
+        this.gameClient = gameClient;
     }
 
     @Override
@@ -30,6 +34,10 @@ public class WSClient extends WebSocketClient {
     @Override
     public void onError(Exception e) {
         log("Error: "+e.getMessage());
+    }
+
+    public GameClient getGameClient() {
+        return gameClient;
     }
 
     public static void log(String msg) {

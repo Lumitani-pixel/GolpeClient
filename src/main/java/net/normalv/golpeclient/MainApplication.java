@@ -8,10 +8,11 @@ import net.normalv.golpeclient.manager.PacketManager;
 import net.normalv.golpeclient.websocket.WSClient;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainApplication extends Application {
     private static MainApplication instance;
-    private WSClient wsClient;
+    private List<WSClient> wsClients;
 
     public static PacketManager packetManager;
 
@@ -27,12 +28,16 @@ public class MainApplication extends Application {
         stage.show();
     }
 
-    public void setWsClient(WSClient wsClient) {
-        this.wsClient = wsClient;
+    public void addWsClient(WSClient wsClient) {
+        wsClients.add(wsClient);
     }
 
-    public WSClient getWsClient() {
-        return wsClient;
+    public WSClient getWsClient(int index) {
+        return wsClients.get(index);
+    }
+
+    public List<WSClient> getWsClients() {
+        return wsClients;
     }
 
     public static MainApplication getInstance() {

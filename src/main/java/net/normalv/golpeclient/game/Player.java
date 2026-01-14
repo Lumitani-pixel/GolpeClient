@@ -32,6 +32,10 @@ public class Player {
         return handCards;
     }
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
     public UUID getUuid() {
         return uuid;
     }

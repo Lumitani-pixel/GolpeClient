@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -14,7 +15,7 @@
   <tabs>
       <Tab text="Main">
          <content>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0">
                <children>
                   <Label text="Golpe Client">
                      <font>
@@ -34,7 +35,21 @@
       </Tab>
     <Tab text="Settings">
          <content>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Bot">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="36.0" prefWidth="600.0" spacing="20.0">
+                     <children>
+                        <TextField fx:id="botAmount" promptText="Bot Amount" />
+                        <ToggleButton fx:id="randomName" mnemonicParsing="false" text="RandomName" />
+                        <TextField fx:id="botName" promptText="Name" />
+                     </children>
+                  </HBox>
+               </children></VBox>
          </content>
     </Tab>
     <Tab text="Logs">
