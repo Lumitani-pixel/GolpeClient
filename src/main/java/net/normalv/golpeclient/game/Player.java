@@ -11,8 +11,7 @@ public class Player {
     private UUID uuid;
     private String name;
 
-    public Player(UUID uuid, String name) {
-        this.uuid = uuid;
+    public Player(String name) {
         this.name = name;
     }
 

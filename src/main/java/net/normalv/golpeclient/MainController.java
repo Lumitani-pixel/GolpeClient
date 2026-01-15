@@ -1,6 +1,7 @@
 package net.normalv.golpeclient;
 
 import com.sun.tools.javac.Main;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import net.normalv.golpeclient.game.GameClient;
@@ -72,7 +73,7 @@ public class MainController {
     }
 
     public void addTextToLog(String text) {
-        logs.appendText(text+"\n");
+        Platform.runLater(() -> logs.appendText(text + "\n"));
     }
 
     public boolean useRandomName() {

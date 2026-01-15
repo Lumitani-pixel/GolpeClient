@@ -2,10 +2,16 @@ package net.normalv.golpeclient.websocket;
 
 import net.normalv.golpeclient.MainController;
 import net.normalv.golpeclient.game.GameClient;
+import net.normalv.golpeclient.game.Player;
+import net.normalv.golpeclient.websocket.packets.Packet;
+import net.normalv.golpeclient.websocket.packets.PacketCodec;
+import net.normalv.golpeclient.websocket.packets.impl.ConfirmRegistrationPacket;
+import net.normalv.golpeclient.websocket.packets.impl.RegisterPacket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.Random;
 
 //TODO: Implement proper logging
 public class WSClient extends WebSocketClient {
@@ -18,12 +24,24 @@ public class WSClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        log("Connected successfully with status"+serverHandshake.getHttpStatusMessage());
+        log("Connected successfully with status: "+serverHandshake.getHttpStatusMessage());
+
+        Player player = new Player(MainController.getInstance().useRandomName() ? "Bot"+ new Random().nextInt(1000) : MainController.getInstance().getBotName());
+        gameClient.setLocalPlayer(player);
+        send(PacketCodec.encode(new RegisterPacket(player.getName())));
+        log("Registering under name: "+player.getName());
     }
 
     @Override
     public void onMessage(String message) {
         log("Got message: "+message);
+
+        Packet packet = PacketCodec.decode(message);
+
+        if(packet instanceof ConfirmRegistrationPacket confirmRegistrationPacket){
+            gameClient.getLocalPlayer().setUuid(confirmRegistrationPacket.uuid);
+            log("Got in assigned uuid: "+confirmRegistrationPacket.uuid);
+        }
     }
 
     @Override
