@@ -5,6 +5,7 @@ import net.normalv.golpeclient.game.GameClient;
 import net.normalv.golpeclient.game.Player;
 import net.normalv.golpeclient.websocket.packets.Packet;
 import net.normalv.golpeclient.websocket.packets.PacketCodec;
+import net.normalv.golpeclient.websocket.packets.impl.CardPacket;
 import net.normalv.golpeclient.websocket.packets.impl.ConfirmRegistrationPacket;
 import net.normalv.golpeclient.websocket.packets.impl.RegisterPacket;
 import org.java_websocket.client.WebSocketClient;
@@ -41,6 +42,9 @@ public class WSClient extends WebSocketClient {
         if(packet instanceof ConfirmRegistrationPacket confirmRegistrationPacket){
             gameClient.getLocalPlayer().setUuid(confirmRegistrationPacket.uuid);
             log("Got in assigned uuid: "+confirmRegistrationPacket.uuid);
+        }
+        else if(packet instanceof CardPacket cardPacket) {
+            gameClient.getLocalPlayer().addCard(cardPacket.card);
         }
     }
 
