@@ -13,6 +13,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Random;
 
 //TODO: Implement proper logging
@@ -49,8 +50,8 @@ public class WSClient extends WebSocketClient {
         }
         else if(packet instanceof NextMovePacket nextMovePacket) {
             gameClient.receiveCard(nextMovePacket.currentCard);
-            if(nextMovePacket.nextPlayersUuid != gameClient.getLocalPlayer().getUuid()) return;
-            gameClient.dealCard();
+            if(!nextMovePacket.nextPlayersUuid.equals(gameClient.getLocalPlayer().getUuid())) return;
+            gameClient.dealCard(this);
         }
     }
 
@@ -61,7 +62,7 @@ public class WSClient extends WebSocketClient {
 
     @Override
     public void onError(Exception e) {
-        log("Error: "+e.getMessage());
+        log("Error: "+e.getMessage()+" and stacktrace: "+ Arrays.toString(e.getStackTrace()));
     }
 
     public GameClient getGameClient() {

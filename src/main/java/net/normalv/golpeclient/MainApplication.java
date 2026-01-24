@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import net.normalv.golpeclient.manager.CardManager;
 import net.normalv.golpeclient.manager.PacketManager;
 import net.normalv.golpeclient.websocket.WSClient;
 
@@ -16,11 +17,13 @@ public class MainApplication extends Application {
     private List<WSClient> wsClients = new ArrayList<>();
 
     public static PacketManager packetManager;
+    public static CardManager cardManager;
 
     @Override
     public void start(Stage stage) throws IOException {
         instance = this;
         packetManager = new PacketManager();
+        cardManager = new CardManager();
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("ClientMenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 500);
