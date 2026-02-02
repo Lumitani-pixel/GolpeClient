@@ -4,6 +4,7 @@ import net.normalv.golpeclient.MainApplication;
 import net.normalv.golpeclient.manager.CardManager;
 import net.normalv.golpeclient.websocket.packets.PacketCodec;
 import net.normalv.golpeclient.websocket.packets.impl.CardPacket;
+import net.normalv.golpeclient.websocket.packets.impl.CantDealPacket;
 import org.java_websocket.client.WebSocketClient;
 
 import java.util.ArrayList;
@@ -23,8 +24,10 @@ public class GameClient {
             if(MainApplication.cardManager.canLayCard(dealtCards.getFirst(), card)) {
                 webSocketClient.send(PacketCodec.encode(new CardPacket(card)));
                 cardIterator.remove();
+                return;
             }
         }
+        webSocketClient.send(PacketCodec.encode(new CantDealPacket()));
     }
 
     public void receiveCard(CardManager.Card card) {
