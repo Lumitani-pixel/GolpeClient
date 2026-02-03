@@ -34,6 +34,12 @@ public class GameClient {
         dealtCards.add(card);
     }
 
+    public void resetDeck() {
+        while(dealtCards.size() > 1) {
+            dealtCards.removeLast();
+        }
+    }
+
     public void setLocalPlayer(Player player) {
         this.localPlayer = player;
     }

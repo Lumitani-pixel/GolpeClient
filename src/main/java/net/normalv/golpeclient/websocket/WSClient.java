@@ -5,10 +5,7 @@ import net.normalv.golpeclient.game.GameClient;
 import net.normalv.golpeclient.game.Player;
 import net.normalv.golpeclient.websocket.packets.Packet;
 import net.normalv.golpeclient.websocket.packets.PacketCodec;
-import net.normalv.golpeclient.websocket.packets.impl.CardPacket;
-import net.normalv.golpeclient.websocket.packets.impl.ConfirmRegistrationPacket;
-import net.normalv.golpeclient.websocket.packets.impl.NextMovePacket;
-import net.normalv.golpeclient.websocket.packets.impl.RegisterPacket;
+import net.normalv.golpeclient.websocket.packets.impl.*;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -52,6 +49,9 @@ public class WSClient extends WebSocketClient {
             gameClient.receiveCard(nextMovePacket.currentCard);
             if(!nextMovePacket.nextPlayersUuid.equals(gameClient.getLocalPlayer().getUuid())) return;
             gameClient.dealCard(this);
+        }
+        else if(packet instanceof ResetDeckPacket) {
+            gameClient.resetDeck();
         }
     }
 
