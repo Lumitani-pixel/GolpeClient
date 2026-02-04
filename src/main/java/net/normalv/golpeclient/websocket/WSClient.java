@@ -71,6 +71,6 @@ public class WSClient extends WebSocketClient {
 
     public static void log(String msg) {
         System.out.println(msg);
-        MainController.getInstance().addTextToLog(msg);
+        //MainController.getInstance().addTextToLog(msg);
     }
 }
