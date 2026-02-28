@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Player {
+    // Player's hand
     private List<CardManager.Card> handCards = new ArrayList<>();
     private UUID uuid;
     private String name;

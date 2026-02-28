@@ -24,45 +24,58 @@ public class WSClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        log("Connected successfully with status: "+serverHandshake.getHttpStatusMessage());
+        log("Connected successfully with status: " + serverHandshake.getHttpStatusMessage());
 
-        Player player = new Player(MainController.getInstance().useRandomName() ? "Bot"+ new Random().nextInt(1000) : MainController.getInstance().getBotName());
+        // Create local player with random or custom name
+        Player player = new Player(
+            MainController.getInstance().useRandomName() 
+                ? "Bot" + new Random().nextInt(1000) 
+                : MainController.getInstance().getBotName()
+        );
         gameClient.setLocalPlayer(player);
+        
+        // Register with server
         send(PacketCodec.encode(new RegisterPacket(player.getName())));
-        log("Registering under name: "+player.getName());
+        log("Registering under name: " + player.getName());
     }
 
     @Override
     public void onMessage(String message) {
-        log("Got message: "+message);
+        log("Got message: " + message);
 
         Packet packet = PacketCodec.decode(message);
 
-        if(packet instanceof ConfirmRegistrationPacket confirmRegistrationPacket){
+        // Handle incoming packets from server
+        if (packet instanceof ConfirmRegistrationPacket confirmRegistrationPacket) {
             gameClient.getLocalPlayer().setUuid(confirmRegistrationPacket.uuid);
-            log("Got in assigned uuid: "+confirmRegistrationPacket.uuid);
+            log("Got in assigned uuid: " + confirmRegistrationPacket.uuid);
         }
-        else if(packet instanceof CardPacket cardPacket) {
+        else if (packet instanceof CardPacket cardPacket) {
+            // Received a card (either dealt or drawn)
             gameClient.getLocalPlayer().addCard(cardPacket.card);
         }
-        else if(packet instanceof NextMovePacket nextMovePacket) {
+        else if (packet instanceof NextMovePacket nextMovePacket) {
+            // Update pile and check if it's our turn
             gameClient.receiveCard(nextMovePacket.currentCard);
-            if(!nextMovePacket.nextPlayersUuid.equals(gameClient.getLocalPlayer().getUuid())) return;
+            
+            if (!nextMovePacket.nextPlayersUuid.equals(gameClient.getLocalPlayer().getUuid())) {
+                return; // Not our turn
+            }
             gameClient.dealCard(this);
         }
-        else if(packet instanceof ResetDeckPacket) {
+        else if (packet instanceof ResetDeckPacket) {
             gameClient.resetDeck();
         }
     }
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        log("Connection closed with code: "+code+", reason: "+reason);
+        log("Connection closed with code: " + code + ", reason: " + reason);
     }
 
     @Override
     public void onError(Exception e) {
-        log("Error: "+e.getMessage()+" and stacktrace: "+ Arrays.toString(e.getStackTrace()));
+        log("Error: " + e.getMessage() + " and stacktrace: " + Arrays.toString(e.getStackTrace()));
     }
 
     public GameClient getGameClient() {
