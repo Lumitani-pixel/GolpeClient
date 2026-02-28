@@ -1,25 +1,50 @@
-# 🃏 GolpeClient
+# GolpeClient
 
-Client for the Golpe automatic card game.
-This is the client application that connects to the GolpeServer, sends commands, and receives game state updates. It can be used as a bot or interactive player client.
-The client is a work-in-progress and is intended for learning and personal use.
+Client application for the Golpe card game - connects to GolpeServer for multiplayer battle between bots.
 
-## 📌 What is GolpeClient?
+## 
 
-GolpeClient lets a user or bot connect to a Golpe game server, communicate using JSON packets over WebSocket, and participate in automatic or interactive gameplay. It works with the GolpeServer backend.
-The client can be used to build:
+GolpeClient connects to the GolpeServer via WebSocket to participate in games. It provides:
+- WebSocket connection management
+- Packet encoding/decoding for server communication
+- JavaFX UI for interactive gameplay
 
-* Bots that automatically make decisions
-* Test clients for server debugging
-* Simple players that connect via console
+## Prerequisites
 
-## 🧠 How the Client Works
+- Java 21
+- Maven 3.9+
 
-**GolpeClient implements**:
-* WebSocket connection to the server
-* JSON packet construction and parsing
-* Handshake logic (JOIN, READY, MOVE / PLAY_CARD)
-* Ability to listen for server packets and react
+## Running the Client
 
-This is done using a Java WebSocket client library (you may use libraries like nv-websocket-client or Java’s built-in WebSocket implementation).\
-The client does not contain full game logic; it simply follows the packet protocol defined for communication.
+```bash
+cd GolpeClient
+mvn clean javafx:run
+```
+
+The client will connect to `localhost:1598` by default.
+
+## Building
+
+```bash
+mvn clean package
+```
+
+## Connecting to a Server
+
+The client connects to the server at `ws://localhost:1598`. To connect to a remote server, modify the connection URL in `WSClient.java`.
+
+## Development
+
+Communication with the server uses JSON packets via WebSocket:
+- `RegisterPacket` - Register as a player
+- `CardPacket` - Send/receive card data
+- `NextMovePacket` - Notify whose turn it is
+- `StopGamePacket` - Game end notification
+- And more in the `packets` package
+
+## Usage
+
+1. Start the GolpeServer first
+2. Run GolpeClient
+3. Enter your bots name in the UI
+4. Connect with one or more bots
